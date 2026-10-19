@@ -1790,6 +1790,18 @@ fn formulas(app: &mut SheetApp, ui: &mut Ui) {
             });
         });
     }
+    #[cfg(not(target_arch = "wasm32"))]
+    {
+        sep(ui);
+        let ai_formula = big_button(ui, Icon::Fx, "AI\nFormula", "Write a formula from a description, through publik API or your own key", false);
+        if ai_formula.clicked() {
+            app.open_dialog("aiFormula", json!({}));
+        }
+        let ai_explain = big_button(ui, Icon::Comment, "Explain\nSelection", "Explain the selected cells in plain words", false);
+        if ai_explain.clicked() {
+            app.open_dialog("aiExplain", json!({}));
+        }
+    }
     sep(ui);
     let __k = big_button(ui, Icon::Name, "Name\nManager", "Name Manager", false);
     control_keytip(app, ui, &__k, "dialog:nameManager");

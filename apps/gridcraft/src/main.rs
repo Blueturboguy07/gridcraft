@@ -73,6 +73,19 @@ impl eframe::App for App {
     }
 }
 
+/// What publik needs to know about this build. The app token is public by design (it can only
+/// mint capped keys attributed to GridCraft) and lives at the repo root so source builds carry it.
+fn app_info() -> gridcraft_ui_egui::ai::AppInfo {
+    gridcraft_ui_egui::ai::AppInfo {
+        slug: "gridcraft",
+        name: "GridCraft",
+        version: env!("CARGO_PKG_VERSION"),
+        app_token: include_str!("../../../publik-app-token.txt"),
+        dialects: &["chat_completions"],
+        config_dir: config_dir(),
+    }
+}
+
 fn config_dir() -> Option<std::path::PathBuf> {
     if cfg!(target_os = "macos") {
         std::env::var_os("HOME").map(|h| std::path::PathBuf::from(h).join("Library/Application Support/GridCraft"))
@@ -255,6 +268,12 @@ fn main() -> eframe::Result<()> {
         println!("GridCraft {}", env!("CARGO_PKG_VERSION"));
         return Ok(());
     }
+    // Builder check (publikhq.com/skills/setup.md): the built app provisions publik API for real
+    // and prints one line. The builder who runs it is the consent.
+    if std::env::var_os("PUBLIK_SELF_TEST").is_some() {
+        println!("{}", gridcraft_ui_egui::ai::self_test(&app_info()));
+        return Ok(());
+    }
     let mut control_port: Option<u16> = std::env::var("GRIDCRAFT_CONTROL_PORT").ok().and_then(|p| p.parse().ok());
     let mut sample: Option<String> = None;
     let mut files: Vec<String> = Vec::new();
@@ -298,6 +317,11 @@ fn main() -> eframe::Result<()> {
         session.new_workbook();
     }
     let mut app = SheetApp::new(session, services());
+    // AI through publik API or the person's own key; the first launch asks. Not in runs without
+    // preferences (agents' test runs), where no dialog may appear unasked.
+    if prefs_enabled() {
+        app.ai = Some(gridcraft_ui_egui::ai::Ai::new(app_info()));
+    }
     app.watch_desktop_theme();
     app.after_engine(); // Show warnings from the sample.
     let control_port = control_port;

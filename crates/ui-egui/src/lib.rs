@@ -6,6 +6,8 @@
 #![deny(clippy::unwrap_used, clippy::expect_used, clippy::panic, clippy::unimplemented, clippy::todo, clippy::unreachable)]
 #![forbid(unsafe_code)]
 
+#[cfg(not(target_arch = "wasm32"))]
+pub mod ai;
 pub mod backstage;
 mod border_preview;
 mod cell_pictures;
@@ -263,6 +265,10 @@ pub struct SheetApp {
     /// holding other text. Once the cut has been pasted, Paste leaves this text alone.
     cut_text: Option<String>,
     pub started: f64,
+    /// AI through publik API or the person's own key (desktop only). `None` until the shell
+    /// installs it, and in test sessions, where no setup dialog may appear.
+    #[cfg(not(target_arch = "wasm32"))]
+    pub ai: Option<ai::Ai>,
 }
 
 impl SheetApp {
@@ -306,6 +312,8 @@ impl SheetApp {
             clipboard_text_at_copy: None,
             cut_text: None,
             started: now_ms(),
+            #[cfg(not(target_arch = "wasm32"))]
+            ai: None,
         }
     }
 
@@ -993,6 +1001,8 @@ impl SheetApp {
         // A keytip control request lives one frame: the ribbon consumes it during `ui`, and
         // anything that never reached a control (collapsed ribbon, tab switch) is dropped.
         self.ui.keytip_invoke = None;
+        #[cfg(not(target_arch = "wasm32"))]
+        ai::frame(self, ctx);
         if self.fonts_han.is_some_and(|han| han != theme::HanOrder::of(self.ui.language)) {
             self.fonts_ready = false;
             self.fonts_set = false;

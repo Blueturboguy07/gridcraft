@@ -673,6 +673,9 @@ impl Dialog {
             "manageRules" => Dialog::custom("manageRules", "Conditional Formatting Rules Manager", json!({})),
             "commandSearch" => Dialog::custom("commandSearch", "Search Commands", json!({})),
             "agents" => Dialog::custom("agents", "Agent Control", json!({})),
+            "aiSetup" => Dialog::custom("aiSetup", "AI", json!({})),
+            "aiFormula" => Dialog::custom("aiFormula", "AI Formula", json!({})),
+            "aiExplain" => Dialog::custom("aiExplain", "Explain Selection", json!({})),
             "about" => {
                 let mut d = Dialog::custom("about", "About GridCraft", json!({}));
                 d.tab = match p("tab").as_str() {
@@ -1030,6 +1033,7 @@ pub fn show(app: &mut SheetApp, ctx: &egui::Context) {
         "formatCells" => 560.0,
         "about" => 660.0,
         "insertFunction" | "commandSearch" | "nameManager" | "manageRules" | "journal" | "agents" | "macros" => 520.0,
+        "aiSetup" | "aiFormula" | "aiExplain" => 500.0,
         "recommendedCharts" => 600.0,
         "analysisToolPak" => 420.0,
         "solver" => 460.0,
@@ -1062,6 +1066,16 @@ pub fn show(app: &mut SheetApp, ctx: &egui::Context) {
                 "solver" => solver(ui, &mut d, &mut confirm, &mut open),
                 "solverResults" => solver_results(app, ui, &mut d, &mut open),
                 "spelling" => spelling(app, ui, &mut d, &mut open),
+                "aiSetup" | "aiFormula" | "aiExplain" => {
+                    #[cfg(not(target_arch = "wasm32"))]
+                    match d.name.as_str() {
+                        "aiSetup" => crate::ai::setup_dialog(app, ui, &mut open),
+                        "aiFormula" => crate::ai::formula_dialog(app, ui, &mut open),
+                        _ => crate::ai::explain_dialog(app, ui, &mut open),
+                    }
+                    #[cfg(target_arch = "wasm32")]
+                    ui.label("AI tools are available in the desktop app.");
+                }
                 "agents" => {
                     ui.label("GridCraft is fully drivable by agents. Every menu item, button and gesture is a command:");
                     ui.add_space(4.0);

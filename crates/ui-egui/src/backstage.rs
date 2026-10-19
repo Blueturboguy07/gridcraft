@@ -994,6 +994,12 @@ fn options(app: &mut SheetApp, ui: &mut Ui) {
     }
     ui.add_space(6.0);
     dim(ui, lang.tr("Calculation settings are saved with the workbook."));
+    #[cfg(not(target_arch = "wasm32"))]
+    {
+        ui.add_space(18.0);
+        section(ui, lang, "Options|AI");
+        crate::ai::options_section(app, ui);
+    }
 }
 
 #[cfg(test)]

@@ -33,6 +33,9 @@ gridcraft-xlsx = { workspace = true, features = ["test-support"] }
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 # The desktop's preferred language for the first-run interface language.
 sys-locale = { workspace = true }
+# publik API as the zero-setup AI option (or the person's own key): provisioning, the
+# credential file, the calls, and the setup flow. Desktop only: it talks to the network.
+craft-publik = { path = "../../../craft-publik", features = ["egui"] }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 # Read the browser's preferred language for the first-run web interface language.
