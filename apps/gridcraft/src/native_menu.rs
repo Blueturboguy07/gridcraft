@@ -174,7 +174,7 @@ fn tree() -> Vec<(&'static str, Vec<Entry>)> {
             vec![
                 ("Agent Control (MCP)…", "dialog:agents", None),
                 ("Contributors…", "dialog:about:Contributors", None),
-                ("GridCraft on getartcraft.com", "url:https://getartcraft.com/apps/gridcraft", None),
+                ("GridCraft on publikhq.com", "url:https://publikhq.com/gridcraft", None),
             ],
         ),
     ]
