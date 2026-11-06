@@ -14,6 +14,8 @@ name = "gridcraft-cli"
 path = "src/main.rs"
 
 [dependencies]
+# publik's usage counts (src/publik_telemetry.rs): the HTTP client that file needs.
+ureq = "2"
 gridcraft-engine = { workspace = true }
 gridcraft-mcp = { workspace = true }
 serde_json = { workspace = true }

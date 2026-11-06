@@ -1596,6 +1596,7 @@ dependencies = [
  "log",
  "quick-xml",
  "serde_json",
+ "ureq",
  "zip",
 ]
 
