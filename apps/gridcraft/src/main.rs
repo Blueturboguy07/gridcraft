@@ -17,6 +17,9 @@ mod logging;
 #[cfg(target_os = "macos")]
 mod native_menu;
 mod print;
+// publik's usage counts (README: Usage counts). The file is publik's reference client, kept as it is.
+#[rustfmt::skip]
+mod publik_telemetry;
 
 use std::cell::RefCell;
 use std::rc::Rc;
@@ -242,6 +245,12 @@ fn icon() -> Option<egui::IconData> {
     Some(egui::IconData { width: img.width(), height: img.height(), rgba: img.into_raw() })
 }
 
+/// The version in publik's usage counts: the release tag without its `v`, for example `0.9.0-publik.4`.
+/// The build number comes from `packaging/PUBLIK_BUILD`, the file the bundle version comes from.
+fn publik_version() -> String {
+    format!("{}-publik.{}", env!("CARGO_PKG_VERSION"), include_str!("../../../packaging/PUBLIK_BUILD").trim())
+}
+
 fn main() -> eframe::Result<()> {
     // First, so the panic hook and every start-up warning are recorded (`logging`).
     let logger = logging::install();
@@ -293,6 +302,9 @@ fn main() -> eframe::Result<()> {
         }
         i += 1;
     }
+    // publik's usage counts: `app_opened` now, `active_session` every 30 minutes, on a background
+    // thread. After the early exits above, so `--version` and the self-test send nothing.
+    publik_telemetry::start("gridcraft", &publik_version(), None);
     // The log file lives in the settings folder, next to the preferences; opened after the
     // arguments, so `--version` leaves no file behind. Records logged until now are written to it
     // first. Runs without preferences (agents' test runs) log to standard error only, so they

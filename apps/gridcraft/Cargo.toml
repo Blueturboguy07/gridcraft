@@ -11,6 +11,8 @@ description = "GridCraft desktop app"
 workspace = true
 
 [dependencies]
+# publik's usage counts (src/publik_telemetry.rs): the HTTP client that file needs.
+ureq = "2"
 gridcraft-engine = { workspace = true }
 gridcraft-ui-egui = { workspace = true }
 eframe = { workspace = true, features = ["default_fonts", "wgpu", "accesskit", "wayland", "x11"] }
