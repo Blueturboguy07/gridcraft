@@ -1,6 +1,8 @@
-#[cfg(not(target_arch = "wasm32"))]
-use super::updates_ui;
 use super::{SheetApp, desktop_theme};
+
+/// GridCraft's page on publikhq.com. publik build: Help ▸ Check for Updates… opens it.
+#[cfg(not(target_arch = "wasm32"))]
+const PUBLIK_LISTING: &str = "https://publikhq.com/gridcraft";
 
 impl SheetApp {
     /// Runs a command and shows its error in a message box (for menu/ribbon clicks).
@@ -48,17 +50,18 @@ impl SheetApp {
         }
     }
 
-    /// Look for a newer release once, in the background, as the desktop app starts (a no-op on the
-    /// web). A found release opens the update prompt; nothing is shown when GridCraft is current.
-    pub fn start_update_check(&mut self) {
-        #[cfg(not(target_arch = "wasm32"))]
-        updates_ui::start(self, false);
-    }
+    /// Look for a newer release once, in the background, as the desktop app starts. publik build:
+    /// a no-op. publik delivers the updates (the listing and the launcher), and craft-update would
+    /// offer and install the upstream releases.
+    pub fn start_update_check(&mut self) {}
 
-    /// Help ▸ Check for Updates…: look now, and say so when GridCraft is up to date or the check fails.
+    /// Help ▸ Check for Updates…: publik build: opens GridCraft's publik listing, where the newest
+    /// publik build is. craft-update would offer the upstream releases.
     pub fn check_for_updates(&mut self) {
         #[cfg(not(target_arch = "wasm32"))]
-        updates_ui::start(self, true);
+        if let Some(open) = &self.services.open_url {
+            open(PUBLIK_LISTING);
+        }
         #[cfg(target_arch = "wasm32")]
         {
             self.message = Some(("GridCraft".into(), "The web version is always the latest release.".into()));

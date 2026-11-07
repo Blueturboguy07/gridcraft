@@ -26,6 +26,8 @@ impl Default for Runtime {
 }
 
 /// Ask for a check; the next frame's `tick` starts it. A manual one reports every outcome.
+// publik build: neither the start nor Help ▸ Check for Updates calls this (`app/prefs.rs`).
+#[allow(dead_code)]
 pub(crate) fn start(app: &mut SheetApp, manual: bool) {
     if manual {
         app.updates_rt.manual = true;
