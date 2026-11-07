@@ -77,3 +77,29 @@ pub(crate) fn show(app: &mut SheetApp, ctx: &egui::Context) {
         }
     }
 }
+
+#[cfg(test)]
+mod publik_tests {
+    use std::{cell::RefCell, rc::Rc};
+
+    use serde_json::json;
+
+    use crate::SheetApp;
+
+    /// publik build: neither the start nor Help ▸ Check for Updates… asks craft-update for a
+    /// release (it reads and installs the upstream releases). The menu item opens the publik listing.
+    #[test]
+    fn publik_build_never_starts_an_upstream_update_check() {
+        let opened = Rc::new(RefCell::new(Vec::<String>::new()));
+        let sink = opened.clone();
+        let services = crate::Services { open_url: Some(Box::new(move |u: &str| sink.borrow_mut().push(u.to_string()))), ..Default::default() };
+        let mut app = SheetApp::new(gridcraft_engine::Session::new(), services);
+        app.start_update_check();
+        assert!(app.run("app.checkForUpdates", json!({})).is_ok());
+        assert!(app.run("help.checkForUpdates", json!({})).is_ok());
+        assert!(!app.updates_rt.startup, "no check at start");
+        assert!(!app.updates_rt.manual, "no check from the menu");
+        assert_eq!(*opened.borrow(), vec!["https://publikhq.com/gridcraft".to_string(); 2]);
+        assert_eq!(crate::UPDATE_APP.repo, "Blueturboguy07/gridcraft");
+    }
+}

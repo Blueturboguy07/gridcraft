@@ -383,6 +383,16 @@ pub fn options_section(app: &mut SheetApp, ui: &mut Ui) {
 mod tests {
     use super::*;
 
+    /// The AI dialogs open by name: the Formulas tab's buttons and File ▸ Options ▸ AI use them.
+    #[test]
+    fn ai_dialogs_open_by_name() {
+        let mut app = SheetApp::new(gridcraft_engine::Session::new(), Default::default());
+        for (name, title) in [("aiSetup", "AI"), ("aiFormula", "AI Formula"), ("aiExplain", "Explain Selection")] {
+            let d = crate::dialogs::Dialog::open(&mut app, name, json!({})).expect("a dialog");
+            assert_eq!((d.name.as_str(), d.title.as_str()), (name, title));
+        }
+    }
+
     #[test]
     fn formulas_come_out_clean() {
         assert_eq!(clean_formula("```\n=SUM(A1:A9)\n```"), "=SUM(A1:A9)");

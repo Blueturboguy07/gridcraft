@@ -411,6 +411,15 @@ mod tests {
         assert!(app.run(item.1, serde_json::json!({})).is_ok());
     }
 
+    /// publik build: Help links to GridCraft's page on publikhq.com, not to getartcraft.com or Discord.
+    #[test]
+    fn help_menu_links_to_the_publik_listing() {
+        let tree = super::tree();
+        let (_, help) = tree.iter().find(|(title, _)| *title == "Help").expect("Help menu");
+        assert!(help.iter().any(|e| e.1 == "url:https://publikhq.com/gridcraft"));
+        assert!(help.iter().all(|e| !e.1.contains("getartcraft") && !e.1.contains("discord")));
+    }
+
     #[test]
     fn theme_choices_use_the_shared_preference_command() {
         let mut app = super::SheetApp::new(gridcraft_engine::Session::new(), Default::default());
