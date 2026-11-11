@@ -4,7 +4,7 @@ members = ["crates/*", "apps/*", "xtask"]
 default-members = ["crates/*", "apps/gridcraft", "apps/gridcraft-cli", "xtask"]
 
 [workspace.package]
-version = "0.17.0"
+version = "0.17.1"
 edition = "2024"
 license = "MIT OR Apache-2.0"
 rust-version = "1.95"
@@ -72,6 +72,10 @@ epaint_default_fonts = "0.37"
 # One native window per workbook: the window list, Window menu titles and the immediate-viewport
 # driver. Same craft-libs revision as craft-update above.
 craft-window = { version = "0.1.0", git = "https://github.com/storytold/craft-libs", rev = "c5a1cbfb5f9049f9270955caffb5bee5997aebf7", default-features = false, features = ["egui"] }
+# The publik module shared by the Craft apps (publikhq.com/sdk/publik.rs.md): Sign in with publik
+# (the gate), usage counting, and publik API or the person's own key. One pin for the whole
+# workspace; branch signin-gate. The crate accepts egui 0.36 and 0.37.
+craft-publik = { git = "https://github.com/Blueturboguy07/craft-publik", rev = "555370540333c2bb404433320cf2dfa3352c453e", features = ["egui"] }
 
 [workspace.lints.rust]
 unsafe_code = "forbid"

@@ -951,8 +951,8 @@ dependencies = [
 
 [[package]]
 name = "craft-publik"
-version = "0.1.0"
-source = "git+https://github.com/Blueturboguy07/craft-publik?rev=7926858db80b68c988d6c325b5d287cbe74fc831#7926858db80b68c988d6c325b5d287cbe74fc831"
+version = "0.2.0"
+source = "git+https://github.com/Blueturboguy07/craft-publik?rev=555370540333c2bb404433320cf2dfa3352c453e#555370540333c2bb404433320cf2dfa3352c453e"
 dependencies = [
  "egui",
  "serde",
@@ -2021,11 +2021,12 @@ dependencies = [
 
 [[package]]
 name = "gridcraft"
-version = "0.17.0"
+version = "0.17.1"
 dependencies = [
  "arboard",
  "chrono",
  "craft-print",
+ "craft-publik",
  "craft-update",
  "eframe",
  "egui",
@@ -2042,14 +2043,13 @@ dependencies = [
  "pollster 1.0.1",
  "rfd",
  "serde_json",
- "ureq 2.12.1",
  "winit",
  "winresource",
 ]
 
 [[package]]
 name = "gridcraft-calc"
-version = "0.17.0"
+version = "0.17.1"
 dependencies = [
  "gridcraft-core",
  "gridcraft-formula",
@@ -2061,7 +2061,7 @@ dependencies = [
 
 [[package]]
 name = "gridcraft-chart"
-version = "0.17.0"
+version = "0.17.1"
 dependencies = [
  "gridcraft-calc",
  "gridcraft-core",
@@ -2072,7 +2072,7 @@ dependencies = [
 
 [[package]]
 name = "gridcraft-cli"
-version = "0.17.0"
+version = "0.17.1"
 dependencies = [
  "gridcraft-engine",
  "gridcraft-mcp",
@@ -2085,7 +2085,7 @@ dependencies = [
 
 [[package]]
 name = "gridcraft-core"
-version = "0.17.0"
+version = "0.17.1"
 dependencies = [
  "chrono",
  "js-sys",
@@ -2096,7 +2096,7 @@ dependencies = [
 
 [[package]]
 name = "gridcraft-engine"
-version = "0.17.0"
+version = "0.17.1"
 dependencies = [
  "gridcraft-calc",
  "gridcraft-chart",
@@ -2119,7 +2119,7 @@ dependencies = [
 
 [[package]]
 name = "gridcraft-formula"
-version = "0.17.0"
+version = "0.17.1"
 dependencies = [
  "gridcraft-core",
  "serde",
@@ -2128,7 +2128,7 @@ dependencies = [
 
 [[package]]
 name = "gridcraft-functions"
-version = "0.17.0"
+version = "0.17.1"
 dependencies = [
  "gridcraft-core",
  "regex",
@@ -2136,7 +2136,7 @@ dependencies = [
 
 [[package]]
 name = "gridcraft-math"
-version = "0.17.0"
+version = "0.17.1"
 dependencies = [
  "ratex-font",
  "ratex-layout",
@@ -2146,7 +2146,7 @@ dependencies = [
 
 [[package]]
 name = "gridcraft-mcp"
-version = "0.17.0"
+version = "0.17.1"
 dependencies = [
  "gridcraft-engine",
  "log",
@@ -2155,7 +2155,7 @@ dependencies = [
 
 [[package]]
 name = "gridcraft-model"
-version = "0.17.0"
+version = "0.17.1"
 dependencies = [
  "gridcraft-core",
  "gridcraft-formula",
@@ -2168,18 +2168,18 @@ dependencies = [
 
 [[package]]
 name = "gridcraft-numfmt"
-version = "0.17.0"
+version = "0.17.1"
 dependencies = [
  "gridcraft-core",
 ]
 
 [[package]]
 name = "gridcraft-pdf"
-version = "0.17.0"
+version = "0.17.1"
 
 [[package]]
 name = "gridcraft-ui-egui"
-version = "0.17.0"
+version = "0.17.1"
 dependencies = [
  "craft-publik",
  "craft-ui",
@@ -2206,7 +2206,7 @@ dependencies = [
 
 [[package]]
 name = "gridcraft-web"
-version = "0.17.0"
+version = "0.17.1"
 dependencies = [
  "craft-web-host",
  "eframe",
@@ -2224,7 +2224,7 @@ dependencies = [
 
 [[package]]
 name = "gridcraft-xlsx"
-version = "0.17.0"
+version = "0.17.1"
 dependencies = [
  "aes",
  "gridcraft-core",
@@ -6709,7 +6709,7 @@ checksum = "e450f9b2ed1dff33c94c12589a87338689467b9c4f5d8a5710bd09a847d2c8a7"
 
 [[package]]
 name = "xtask"
-version = "0.17.0"
+version = "0.17.1"
 dependencies = [
  "gridcraft-engine",
  "serde_json",

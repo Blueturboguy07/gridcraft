@@ -96,9 +96,11 @@ pub fn frame(app: &mut SheetApp, _ctx: &egui::Context) {
     ai.formula.poll(&mut ai.state);
     ai.explain.poll(&mut ai.state);
     ai.frames = ai.frames.saturating_add(1);
-    // The first launch asks once the window is up (a few frames in). "Later" ends that for good.
-    if !ai.first_run_checked && ai.frames > 3 {
+    // The first launch asks once the publik gate passed and the window is up (a few frames in):
+    // after "Use my own key" at the gate, the own-key form. "Later" ends that for good.
+    if !ai.first_run_checked && ai.frames > 3 && craft_publik::gate::passed() {
         ai.first_run_checked = true;
+        ai.state.reload_credential(); // the gate wrote it after this state was created
         if ai.state.wants_first_run() || ai.state.owes_first_card() {
             ai.open_setup = true;
         }
@@ -176,7 +178,7 @@ fn clean_formula(text: &str) -> String {
 }
 
 fn needs_setup(ui: &mut Ui) -> bool {
-    ui.label("This tool needs AI. Set it up first: publik API (no key to paste) or your own key.");
+    ui.label("This tool needs AI. Set it up first: connect your publik plan (no key to paste) or use your own key.");
     ui.add_space(6.0);
     ui.button("Set up AI…").clicked()
 }
